@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -77,4 +79,11 @@ dependencies {
 
     // coil for loading images off internet
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Room
+    ksp("androidx.room:room-compiler:2.5.0")
+
+    val room_version = "2.8.4"
+
+    implementation("androidx.room:room-runtime:$room_version")
 }
