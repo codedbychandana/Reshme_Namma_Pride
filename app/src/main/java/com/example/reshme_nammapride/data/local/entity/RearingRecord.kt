@@ -11,5 +11,5 @@ data class RearingRecord(
     val timestamp: Long,
     val temperature: Float,
     val humidity: Float,
-    val stage: InstarStage // We'll need a Converter for this!
+    val stage: InstarStage
 )
