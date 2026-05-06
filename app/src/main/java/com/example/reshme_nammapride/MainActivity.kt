@@ -68,9 +68,12 @@ class MainActivity : ComponentActivity() {
                             )
                             NavigationBarItem(
                                 selected = currentRoute == Screen.History.route,
-                                onClick = { navController.navigate(Screen.History.route) {
-                                    launchSingleTop = true
-                                }},
+                                onClick = {
+                                    climateViewModel.selectBatch(null)
+                                    navController.navigate(Screen.History.route) {
+                                        launchSingleTop = true
+                                    }
+                                },
                                 icon = { Icon(painter = painterResource(R.drawable.history), "History") },
                                 label = { Text("History") }
                             )
