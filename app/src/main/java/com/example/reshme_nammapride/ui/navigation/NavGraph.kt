@@ -22,15 +22,13 @@ fun NavGraph(
             EntryScreen(viewModel = viewModel)
         }
         composable(Screen.History.route) {
-            HistoryScreen(viewModel = viewModel)
+            HistoryScreen(viewModel = viewModel, navController = navController)
         }
         composable(Screen.Archive.route) {
             ArchiveScreen(
                 viewModel = viewModel,
                 onBatchClick = { batchId ->
-                    // 1. Tell the ViewModel which archived batch we want to see
                     viewModel.selectBatch(batchId)
-                    // 2. Navigate to History to view the logs for that specific batch
                     navController.navigate(Screen.History.route)
                 }
             )

@@ -9,31 +9,52 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.reshme_nammapride.R
+import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryScreen(viewModel: ClimateViewModel) {
-    // Collecting historyRecords as defined in your ViewModel
+fun HistoryScreen(
+    viewModel: ClimateViewModel,
+    navController: NavHostController
+) {
     val history by viewModel.historyRecords.collectAsState(initial = emptyList())
 
     Scaffold(
         topBar = {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Batch History",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Past temperature & humidity logs",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            CenterAlignedTopAppBar(
+                title = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Batch History",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Past temperature & humidity logs",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                actions = {
+                    // go to archive screen
+                    IconButton(onClick = { navController.navigate(Screen.Archive.route) }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.history),
+                            contentDescription = "Archive",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            )
         }
     ) { padding ->
         if (history.isEmpty()) {
@@ -51,7 +72,8 @@ fun HistoryScreen(viewModel: ClimateViewModel) {
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(history) { record ->
+                // history from oldest first
+                items(history.asReversed()) { record ->
                     HistoryItem(record = record)
                 }
             }
