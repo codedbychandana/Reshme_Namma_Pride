@@ -28,6 +28,10 @@ fun HistoryScreen(
 ) {
     val history by viewModel.historyRecords.collectAsState(initial = emptyList())
 
+    val activeBatch by viewModel.activeBatch.collectAsState()
+
+    val isViewingArchive = history.isNotEmpty() && activeBatch?.id != history.firstOrNull()?.batchId
+
     Scaffold { padding ->
         Column(
             modifier = Modifier
@@ -40,42 +44,61 @@ fun HistoryScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(
-                    text = "Batch History",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (isViewingArchive) {
+                        IconButton(
+                            onClick = { viewModel.selectBatch(null) },
+                            modifier = Modifier.padding(end = 8.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.chevron_left),
+                                contentDescription = "Back",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
 
-                Text(
-                    text = "Past temperature & humidity logs",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                    Column {
+                        Text(
+                            text = if (isViewingArchive) "Archive Details" else "Batch History",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = if (isViewingArchive) "Viewing past records" else "Past temperature & humidity logs",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(
-                    onClick = { navController.navigate(Screen.Archive.route) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.history),
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp)
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = "View previous batches",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold
-                    )
+                if (!isViewingArchive) {
+                    Button(
+                        onClick = { navController.navigate(Screen.Archive.route) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.history),
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "View previous batches",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
             if (history.isEmpty()) {
