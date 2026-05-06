@@ -45,12 +45,24 @@ fun HistoryScreen(
                     }
                 },
                 actions = {
-                    // go to archive screen
-                    IconButton(onClick = { navController.navigate(Screen.Archive.route) }) {
+                    // button to go to archive screen
+                    Button(
+                        onClick = { navController.navigate(Screen.Archive.route) },
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.history),
-                            contentDescription = "Archive",
-                            tint = MaterialTheme.colorScheme.primary
+                            contentDescription = "all batches history",
+                            modifier = Modifier.size(28.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "View previous batches",
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }

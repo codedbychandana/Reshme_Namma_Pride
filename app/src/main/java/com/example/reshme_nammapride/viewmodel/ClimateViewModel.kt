@@ -96,14 +96,15 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
                 startDate = System.currentTimeMillis(),
                 isActive = true
             )
-            dao.insertBatch(newBatch)
+            dao.upsertBatch(newBatch)
         }
     }
 
     fun completeActiveBatch() {
         viewModelScope.launch {
             activeBatch.value?.let { current ->
-                dao.insertBatch(current.copy(isActive = false))
+                dao.upsertBatch(current.copy(isActive = false))
+                selectBatch(null)
             }
         }
     }

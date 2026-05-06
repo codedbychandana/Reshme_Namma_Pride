@@ -26,6 +26,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
     val advice by viewModel.currentAdvice.collectAsState()
     val activeBatchState by viewModel.activeBatch.collectAsState()
 
+    var newBatchName by remember { mutableStateOf("") }
 
     var showFinishDialog by remember { mutableStateOf(false) }
     val currentBatch = activeBatchState
@@ -98,17 +99,45 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                 modifier = Modifier.fillMaxSize().padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("No Active Batch", style = MaterialTheme.typography.headlineSmall)
-                    Button(
-                        onClick = { viewModel.createNewBatch("New Batch") },
-                        modifier = Modifier.padding(top = 16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        )
+                Card(
+                    modifier = Modifier.padding(24.dp),
+                    elevation = CardDefaults.cardElevation(4.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("START REARING")
+                        Text(
+                            "Start New Rearing",
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        OutlinedTextField(
+                            value = newBatchName,
+                            onValueChange = { newBatchName = it },
+                            label = { Text("Breed Name (e.g., CSR2 x CSR4)") },
+                            placeholder = { Text("Enter breed name...") },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = {
+                                if (newBatchName.isNotBlank()) {
+                                    viewModel.createNewBatch(newBatchName)
+                                    newBatchName = ""
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth().height(56.dp),
+                            enabled = newBatchName.isNotBlank()
+                        ) {
+                            Text("START BATCH")
+                        }
                     }
                 }
             }

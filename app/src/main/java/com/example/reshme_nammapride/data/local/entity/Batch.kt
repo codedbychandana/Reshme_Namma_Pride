@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class Batch(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val breedName: String,
-    val startDate: Long, // Store as System.currentTimeMillis()
+    val startDate: Long,
     val isActive: Boolean = true
 )

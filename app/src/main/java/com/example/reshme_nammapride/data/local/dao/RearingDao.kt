@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RearingDao {
     // Batch Operations
-    @Insert
-    suspend fun insertBatch(batch: Batch): Long
+    @Upsert
+    suspend fun upsertBatch(batch: Batch): Long
 
     @Query("SELECT * FROM batches WHERE isActive = 1 LIMIT 1")
     fun getActiveBatch(): Flow<Batch?>
