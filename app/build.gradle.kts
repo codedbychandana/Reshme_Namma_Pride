@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.happybirthday"
+    namespace = "com.example.reshme_nammapride"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.happybirthday"
+        applicationId = "com.example.reshme_nammapride"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -83,7 +83,7 @@ dependencies {
     // Room
     ksp("androidx.room:room-compiler:2.5.0")
 
-    val room_version = "2.8.4"
+    val roomVersion = "2.8.4"
 
-    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
 }

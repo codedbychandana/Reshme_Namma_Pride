@@ -13,13 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import com.example.reshme_nammapride.R
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
-import com.example.happybirthday.R
 import com.example.reshme_nammapride.data.local.AppDatabase
 import com.example.reshme_nammapride.ui.navigation.NavGraph
 import com.example.reshme_nammapride.ui.navigation.Screen

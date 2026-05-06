@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.Flow
 interface RearingDao {
     // Batch Operations
     @Insert
-    suspend fun insertBatch(batch: Batch)
+    suspend fun insertBatch(batch: Batch): Long
 
     @Query("SELECT * FROM batches WHERE isActive = 1 LIMIT 1")
     fun getActiveBatch(): Flow<Batch?>
 
     // Record Operations
     @Insert
-    suspend fun insertRecord(record: RearingRecord)
+    suspend fun insertRecord(record: RearingRecord): Long
 
     @Query("SELECT * FROM rearing_records WHERE batchId = :batchId ORDER BY timestamp DESC")
     fun getRecordsForBatch(batchId: Int): Flow<List<RearingRecord>>

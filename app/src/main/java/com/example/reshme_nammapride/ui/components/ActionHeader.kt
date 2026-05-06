@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.happybirthday.R
+import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateStatus
 import com.example.reshme_nammapride.ui.theme.AlertRed
