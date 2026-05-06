@@ -21,6 +21,9 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         initialValue = null
     )
 
+    val pastBatches: StateFlow<List<Batch>> = dao.getPastBatches()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val historyRecords: Flow<List<RearingRecord>> = activeBatch.flatMapLatest { batch ->
         if (batch != null) {
