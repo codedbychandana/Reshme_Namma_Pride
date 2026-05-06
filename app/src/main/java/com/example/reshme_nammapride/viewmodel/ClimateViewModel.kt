@@ -7,6 +7,7 @@ import com.example.reshme_nammapride.data.local.entity.RearingRecord
 import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateEngine
 import com.example.reshme_nammapride.domain.model.InstarStage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -18,6 +19,15 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = null
     )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val historyRecords: Flow<List<RearingRecord>> = activeBatch.flatMapLatest { batch ->
+        if (batch != null) {
+            dao.getRecordsForBatch(batch.id)
+        } else {
+            flowOf(emptyList())
+        }
+    }
 
     // State for User Input
     private val _tempInput = MutableStateFlow(25f)
