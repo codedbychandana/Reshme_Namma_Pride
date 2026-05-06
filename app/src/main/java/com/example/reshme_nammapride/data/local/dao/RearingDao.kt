@@ -14,6 +14,9 @@ interface RearingDao {
     @Query("SELECT * FROM batches WHERE isActive = 1 LIMIT 1")
     fun getActiveBatch(): Flow<Batch?>
 
+    @Query("SELECT * FROM batches WHERE isActive = 0 ORDER BY startDate DESC")
+    fun getPastBatches(): Flow<List<Batch>>
+
     // Record Operations
     @Insert
     suspend fun insertRecord(record: RearingRecord): Long
