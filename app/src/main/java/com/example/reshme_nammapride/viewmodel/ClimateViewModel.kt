@@ -50,7 +50,7 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         initialValue = ClimateEngine.analyze(InstarStage.FIRST_INSTAR, 25f, 75f)
     )
 
-    // 4. Actions
+    // Actions
     fun updateTemperature(newTemp: Float) { _tempInput.value = newTemp }
     fun updateHumidity(newHum: Float) { _humidityInput.value = newHum }
     fun updateStage(newStage: InstarStage) { _selectedStage.value = newStage }
