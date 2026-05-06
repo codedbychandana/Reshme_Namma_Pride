@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.example.reshme_nammapride.domain.model.InstarStage
 import com.example.reshme_nammapride.ui.components.ActionCard
 import com.example.reshme_nammapride.ui.components.ClimateHeader
+import com.example.reshme_nammapride.ui.components.HarvestAlert
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,6 +149,12 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
+                val harvestStatus by viewModel.harvestTimerState.collectAsState()
+
+                if (stage == InstarStage.FIFTH_INSTAR && harvestStatus != null) {
+                    HarvestAlert(status = harvestStatus!!)
+                }
+
                 ClimateHeader(temp, humidity, advice.status)
 
                 Column(modifier = Modifier.padding(16.dp)) {
