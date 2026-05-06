@@ -8,6 +8,7 @@ import com.example.reshme_nammapride.data.local.entity.RearingRecord
 import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateEngine
 import com.example.reshme_nammapride.domain.model.InstarStage
+import com.example.reshme_nammapride.util.HarvestTimer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -65,6 +66,10 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = ClimateEngine.analyze(InstarStage.FIRST_INSTAR, 25f, 75f)
     )
+
+    val harvestTimerState = historyRecords.map { records ->
+        HarvestTimer.calculateStatus(records)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
 
     // Actions
