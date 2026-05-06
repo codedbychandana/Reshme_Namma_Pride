@@ -29,41 +29,51 @@ fun HistoryScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
                         Text(
                             text = "Batch History",
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
+
                         Text(
                             text = "Past temperature & humidity logs",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    }
-                },
-                actions = {
-                    // button to go to archive screen
-                    Button(
-                        onClick = { navController.navigate(Screen.Archive.route) },
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.history),
-                            contentDescription = "all batches history",
-                            modifier = Modifier.size(28.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "View previous batches",
-                            style = MaterialTheme.typography.labelLarge
-                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Button(
+                            onClick = { navController.navigate(Screen.Archive.route) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(52.dp),
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.history),
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp) // Large icon
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "View previous batches",
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             )

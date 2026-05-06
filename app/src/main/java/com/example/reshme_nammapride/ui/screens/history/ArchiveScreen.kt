@@ -22,7 +22,8 @@ import java.util.*
 @Composable
 fun ArchiveScreen(
     viewModel: ClimateViewModel,
-    onBatchClick: (Int) -> Unit
+    onBatchClick: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     val pastBatches by viewModel.pastBatches.collectAsState()
 
