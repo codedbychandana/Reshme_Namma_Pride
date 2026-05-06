@@ -3,6 +3,7 @@ package com.example.reshme_nammapride.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.reshme_nammapride.data.local.dao.RearingDao
+import com.example.reshme_nammapride.data.local.entity.Batch
 import com.example.reshme_nammapride.data.local.entity.RearingRecord
 import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateEngine
@@ -65,6 +66,17 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
                 stage = _selectedStage.value
             )
             dao.insertRecord(record)
+        }
+    }
+
+    fun createNewBatch(name: String) {
+        viewModelScope.launch {
+            val newBatch = Batch(
+                breedName = name,
+                startDate = System.currentTimeMillis(),
+                isActive = true
+            )
+            dao.insertBatch(newBatch)
         }
     }
 }
