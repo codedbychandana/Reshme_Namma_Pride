@@ -3,15 +3,26 @@ package com.example.reshme_nammapride
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import com.example.happybirthday.R
 import com.example.reshme_nammapride.data.local.AppDatabase
-import com.example.reshme_nammapride.ui.screens.entry.EntryScreen
+import com.example.reshme_nammapride.ui.navigation.NavGraph
+import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.ui.theme.ReshmeNammaPrideTheme
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 
@@ -29,17 +40,46 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ReshmeNammaPrideTheme {
-                Surface {
-                    // Create viewModel
-                    val climateViewModel: ClimateViewModel = viewModel(
-                        factory = object : ViewModelProvider.Factory {
-                            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                                return ClimateViewModel(rearingDao) as T
-                            }
-                        }
-                    )
+                val navController = rememberNavController()
 
-                    EntryScreen(viewModel = climateViewModel)
+                // viewModel
+                val climateViewModel: ClimateViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return ClimateViewModel(rearingDao) as T
+                        }
+                    }
+                )
+
+                Scaffold(
+                    bottomBar = {
+                        NavigationBar {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentRoute = navBackStackEntry?.destination?.route
+
+                            NavigationBarItem(
+                                selected = currentRoute == Screen.Entry.route,
+                                onClick = { navController.navigate(Screen.Entry.route) {
+                                    popUpTo(navController.graph.startDestinationId)
+                                    launchSingleTop = true
+                                }},
+                                icon = { Icon(painter = painterResource(R.drawable.log), "log") },
+                                label = { Text("Log") }
+                            )
+                            NavigationBarItem(
+                                selected = currentRoute == Screen.History.route,
+                                onClick = { navController.navigate(Screen.History.route) {
+                                    launchSingleTop = true
+                                }},
+                                icon = { Icon(painter = painterResource(R.drawable.history), "History") },
+                                label = { Text("History") }
+                            )
+                        }
+                    }
+                ) { innerPadding ->
+                    Surface(modifier = Modifier.padding(innerPadding)) {
+                        NavGraph(navController = navController, viewModel = climateViewModel)
+                    }
                 }
             }
         }
