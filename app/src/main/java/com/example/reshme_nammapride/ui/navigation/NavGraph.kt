@@ -27,6 +27,7 @@ fun NavGraph(
         composable(Screen.Archive.route) {
             ArchiveScreen(
                 viewModel = viewModel,
+                onBack = { navController.popBackStack() },
                 onBatchClick = { batchId ->
                     viewModel.selectBatch(batchId)
                     navController.navigate(Screen.History.route)
