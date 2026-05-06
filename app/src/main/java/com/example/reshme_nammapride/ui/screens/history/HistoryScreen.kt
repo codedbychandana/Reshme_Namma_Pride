@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.reshme_nammapride.R
+import com.example.reshme_nammapride.data.local.entity.RearingRecord
 import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 import java.text.SimpleDateFormat
@@ -27,76 +28,75 @@ fun HistoryScreen(
 ) {
     val history by viewModel.historyRecords.collectAsState(initial = emptyList())
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text(
-                            text = "Batch History",
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold
-                        )
+    Scaffold { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
 
-                        Text(
-                            text = "Past temperature & humidity logs",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Button(
-                            onClick = { navController.navigate(Screen.Archive.route) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(52.dp),
-                            contentPadding = PaddingValues(horizontal = 16.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.history),
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp) // Large icon
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(
-                                text = "View previous batches",
-                                style = MaterialTheme.typography.labelLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }
-            )
-        }
-    ) { padding ->
-        if (history.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("No records found for this batch.")
-            }
-        } else {
-            LazyColumn(
+            Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .fillMaxWidth()
+                    .padding(16.dp)
             ) {
-                // history from oldest first
-                items(history.asReversed()) { record ->
-                    HistoryItem(record = record)
+                Text(
+                    text = "Batch History",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(
+                    text = "Past temperature & humidity logs",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { navController.navigate(Screen.Archive.route) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.history),
+                        contentDescription = null,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "View previous batches",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            if (history.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(padding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No records found for this batch.")
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // history from oldest first
+                    items(history.asReversed()) { record ->
+                        HistoryItem(record = record)
+                    }
                 }
             }
         }
@@ -104,7 +104,7 @@ fun HistoryScreen(
 }
 
 @Composable
-fun HistoryItem(record: com.example.reshme_nammapride.data.local.entity.RearingRecord) {
+fun HistoryItem(record: RearingRecord) {
     val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
 
@@ -129,7 +129,13 @@ fun HistoryItem(record: com.example.reshme_nammapride.data.local.entity.RearingR
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "${dateFormat.format(Date(record.timestamp))} at ${timeFormat.format(Date(record.timestamp))}",
+                    text = "${dateFormat.format(Date(record.timestamp))} at ${
+                        timeFormat.format(
+                            Date(
+                                record.timestamp
+                            )
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -150,3 +156,5 @@ fun HistoryItem(record: com.example.reshme_nammapride.data.local.entity.RearingR
         }
     }
 }
+
+
