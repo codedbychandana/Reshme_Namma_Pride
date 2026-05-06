@@ -20,7 +20,10 @@ import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArchiveScreen(viewModel: ClimateViewModel) {
+fun ArchiveScreen(
+    viewModel: ClimateViewModel,
+    onBatchClick: (Int) -> Unit
+) {
     val pastBatches by viewModel.pastBatches.collectAsState()
 
     Scaffold(
@@ -69,18 +72,26 @@ fun ArchiveScreen(viewModel: ClimateViewModel) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(pastBatches) { batch ->
-                    BatchArchiveItem(batch = batch)
+                    BatchArchiveItem(
+                        batch = batch,
+                        onClick = { onBatchClick(batch.id) }
+                    )
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BatchArchiveItem(batch: Batch) {
+fun BatchArchiveItem(
+    batch: Batch,
+    onClick: () -> Unit
+) {
     val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
     Card(
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
@@ -107,7 +118,6 @@ fun BatchArchiveItem(batch: Batch) {
                 )
             }
 
-            // Visual indicator that this is a finished batch
             Surface(
                 shape = MaterialTheme.shapes.small,
                 color = MaterialTheme.colorScheme.secondaryContainer,

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.reshme_nammapride.ui.screens.entry.EntryScreen
+import com.example.reshme_nammapride.ui.screens.history.ArchiveScreen
 import com.example.reshme_nammapride.ui.screens.history.HistoryScreen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 
@@ -22,6 +23,17 @@ fun NavGraph(
         }
         composable(Screen.History.route) {
             HistoryScreen(viewModel = viewModel)
+        }
+        composable(Screen.Archive.route) {
+            ArchiveScreen(
+                viewModel = viewModel,
+                onBatchClick = { batchId ->
+                    // 1. Tell the ViewModel which archived batch we want to see
+                    viewModel.selectBatch(batchId)
+                    // 2. Navigate to History to view the logs for that specific batch
+                    navController.navigate(Screen.History.route)
+                }
+            )
         }
     }
 }
