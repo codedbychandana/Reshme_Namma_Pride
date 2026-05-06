@@ -24,14 +24,26 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
     val pastBatches: StateFlow<List<Batch>> = dao.getPastBatches()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    // track which batch ID is being inspected in the Archive
+    private val _selectedBatchId = MutableStateFlow<Int?>(null)
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val historyRecords: Flow<List<RearingRecord>> = activeBatch.flatMapLatest { batch ->
-        if (batch != null) {
-            dao.getRecordsForBatch(batch.id)
+    val historyRecords: StateFlow<List<RearingRecord>> = combine(
+        activeBatch,
+        _selectedBatchId
+    ) { active, selected ->
+        selected ?: active?.id
+    }.flatMapLatest { id ->
+        if (id != null) {
+            dao.getRecordsForBatch(id)
         } else {
             flowOf(emptyList())
         }
-    }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     // State for User Input
     private val _tempInput = MutableStateFlow(25f)
@@ -54,7 +66,12 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         initialValue = ClimateEngine.analyze(InstarStage.FIRST_INSTAR, 25f, 75f)
     )
 
+
     // Actions
+    // set the selected batch
+    fun selectBatch(batchId: Int?) {
+        _selectedBatchId.value = batchId
+    }
     fun updateTemperature(newTemp: Float) { _tempInput.value = newTemp }
     fun updateHumidity(newHum: Float) { _humidityInput.value = newHum }
     fun updateStage(newStage: InstarStage) { _selectedStage.value = newStage }
