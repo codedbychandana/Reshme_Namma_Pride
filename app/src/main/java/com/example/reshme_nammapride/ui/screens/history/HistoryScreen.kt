@@ -47,7 +47,12 @@ fun HistoryScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (isViewingArchive) {
                         IconButton(
-                            onClick = { viewModel.selectBatch(null) },
+                            onClick = {
+                                viewModel.selectBatch(null)
+                                navController.navigate(Screen.Archive.route) {
+                                    popUpTo(Screen.History.route) { inclusive = false }
+                                }
+                            },
                             modifier = Modifier.padding(end = 8.dp)
                         ) {
                             Icon(
@@ -180,5 +185,3 @@ fun HistoryItem(record: RearingRecord) {
         }
     }
 }
-
-

@@ -9,13 +9,13 @@ import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateEngine
 import com.example.reshme_nammapride.domain.model.InstarStage
 import com.example.reshme_nammapride.util.HarvestTimer
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
 
-    // Get the current active batch
     val activeBatch = dao.getActiveBatch().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -25,7 +25,6 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
     val pastBatches: StateFlow<List<Batch>> = dao.getPastBatches()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    // track which batch ID is being inspected in the Archive
     private val _selectedBatchId = MutableStateFlow<Int?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -46,7 +45,6 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         initialValue = emptyList()
     )
 
-    // State for User Input
     private val _tempInput = MutableStateFlow(25f)
     val tempInput = _tempInput.asStateFlow()
 
@@ -56,7 +54,6 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
     private val _selectedStage = MutableStateFlow(InstarStage.FIRST_INSTAR)
     val selectedStage = _selectedStage.asStateFlow()
 
-    // smart advice calculation
     val currentAdvice: StateFlow<ClimateAdvice> = combine(
         _selectedStage, _tempInput, _humidityInput
     ) { stage, temp, hum ->
@@ -71,12 +68,10 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         HarvestTimer.calculateStatus(records)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-
-    // Actions
-    // set the selected batch
     fun selectBatch(batchId: Int?) {
         _selectedBatchId.value = batchId
     }
+
     fun updateTemperature(newTemp: Float) { _tempInput.value = newTemp }
     fun updateHumidity(newHum: Float) { _humidityInput.value = newHum }
     fun updateStage(newStage: InstarStage) { _selectedStage.value = newStage }
@@ -110,6 +105,28 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
             activeBatch.value?.let { current ->
                 dao.upsertBatch(current.copy(isActive = false))
                 selectBatch(null)
+            }
+        }
+    }
+
+    fun exportBatchData(context: android.content.Context, uri: android.net.Uri, batch: Batch) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val readings = dao.getRecordsForBatch(batch.id).first()
+                val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+
+                val csvHeader = "Date/Time,Temperature(°C),Humidity(%),Growth Stage\n"
+                val csvBody = readings.joinToString("\n") { reading ->
+                    val dateStr = dateFormat.format(java.util.Date(reading.timestamp))
+                    "$dateStr,${reading.temperature},${reading.humidity},${reading.stage}"
+                }
+
+                context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    outputStream.write((csvHeader + csvBody).toByteArray(Charsets.UTF_8))
+                    outputStream.flush()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

@@ -1,14 +1,16 @@
 package com.example.reshme_nammapride.ui.screens.history
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,18 @@ fun ArchiveScreen(
     onBack: () -> Unit
 ) {
     val pastBatches by viewModel.pastBatches.collectAsState()
+    val context = LocalContext.current
+    var batchToExport by remember { mutableStateOf<Batch?>(null) }
+
+    val exportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("text/csv")
+    ) { uri: Uri? ->
+        uri?.let {
+            batchToExport?.let { batch ->
+                viewModel.exportBatchData(context, it, batch)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -40,7 +54,7 @@ fun ArchiveScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            painter = painterResource(R.drawable.chevron_left), // Use your back icon resource
+                            painter = painterResource(R.drawable.chevron_left),
                             contentDescription = "Go Back",
                             modifier = Modifier.size(32.dp)
                         )
@@ -85,7 +99,11 @@ fun ArchiveScreen(
                 items(pastBatches) { batch ->
                     BatchArchiveItem(
                         batch = batch,
-                        onClick = { onBatchClick(batch.id) }
+                        onClick = { onBatchClick(batch.id) },
+                        onExport = {
+                            batchToExport = batch
+                            exportLauncher.launch("${batch.breedName}_Report.csv")
+                        }
                     )
                 }
             }
@@ -97,7 +115,8 @@ fun ArchiveScreen(
 @Composable
 fun BatchArchiveItem(
     batch: Batch,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onExport: () -> Unit
 ) {
     val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
@@ -112,8 +131,7 @@ fun BatchArchiveItem(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -129,16 +147,11 @@ fun BatchArchiveItem(
                 )
             }
 
-            Surface(
-                shape = MaterialTheme.shapes.small,
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier.padding(end = 8.dp)
-            ) {
-                Text(
-                    text = "COMPLETED",
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+            IconButton(onClick = onExport) {
+                Icon(
+                    painter = painterResource(R.drawable.download),
+                    contentDescription = "Export CSV",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
 
