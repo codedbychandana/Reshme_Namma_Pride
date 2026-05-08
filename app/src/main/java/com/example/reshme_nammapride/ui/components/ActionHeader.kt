@@ -12,20 +12,28 @@ import androidx.compose.ui.unit.dp
 import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.domain.logic.ClimateAdvice
 import com.example.reshme_nammapride.domain.logic.ClimateStatus
-import com.example.reshme_nammapride.ui.theme.AlertRed
-import com.example.reshme_nammapride.ui.theme.SafeGreen
-import com.example.reshme_nammapride.ui.theme.WarningOrange
 
 @Composable
 fun ActionCard(
     advice: ClimateAdvice,
     modifier: Modifier = Modifier
 ) {
-    // Determine color and icon based on the status
-    val cardColor = when (advice.status) {
-        ClimateStatus.SAFE -> SafeGreen
-        ClimateStatus.CAUTION -> WarningOrange
-        ClimateStatus.DANGER -> AlertRed
+    val containerColor = when (advice.status) {
+        ClimateStatus.SAFE -> MaterialTheme.colorScheme.primaryContainer
+        ClimateStatus.CAUTION -> MaterialTheme.colorScheme.secondaryContainer
+        ClimateStatus.DANGER -> MaterialTheme.colorScheme.errorContainer
+    }
+
+    val contentColor = when (advice.status) {
+        ClimateStatus.SAFE -> MaterialTheme.colorScheme.onPrimaryContainer
+        ClimateStatus.CAUTION -> MaterialTheme.colorScheme.onSecondaryContainer
+        ClimateStatus.DANGER -> MaterialTheme.colorScheme.onErrorContainer
+    }
+
+    val outlineColor = when (advice.status) {
+        ClimateStatus.SAFE -> MaterialTheme.colorScheme.primary
+        ClimateStatus.CAUTION -> MaterialTheme.colorScheme.outlineVariant
+        ClimateStatus.DANGER -> MaterialTheme.colorScheme.error
     }
 
     val icon = when (advice.status) {
@@ -40,9 +48,10 @@ fun ActionCard(
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = cardColor.copy(alpha = 0.1f) // Light tinted background
+            containerColor = containerColor,
+            contentColor = contentColor
         ),
-        border = androidx.compose.foundation.BorderStroke(2.dp, cardColor)
+        border = androidx.compose.foundation.BorderStroke(2.dp, outlineColor)
     ) {
         Row(
             modifier = Modifier
@@ -53,7 +62,7 @@ fun ActionCard(
             Icon(
                 painter = icon,
                 contentDescription = null,
-                tint = cardColor,
+                tint = contentColor,
                 modifier = Modifier.size(48.dp)
             )
 
@@ -67,7 +76,7 @@ fun ActionCard(
                         ClimateStatus.DANGER -> "URGENT ALERT"
                     },
                     style = MaterialTheme.typography.titleLarge,
-                    color = cardColor,
+                    color = contentColor,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -76,7 +85,7 @@ fun ActionCard(
                 Text(
                     text = advice.message,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = contentColor
                 )
             }
         }

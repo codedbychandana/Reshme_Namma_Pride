@@ -2,19 +2,22 @@ package com.example.reshme_nammapride.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Primary Palette
-val MulberryGreen = Color(0xFF2D5A27)
-val SoftLeafGreen = Color(0xFF4CAF50)
-val SilkCream = Color(0xFFFFFDF5)
-val RawSilkGold = Color(0xFFFFD700)
+val Neutral99 = Color(0xFF64B417)
+val Neutral90 = Color(0xFFA1DA9A)
+val Neutral10 = Color(0xFF061300)
+val NeutralVariant30 = Color(0xFF43493F)
+val NeutralVariant50 = Color(0xFF74796E)
 
-// Status Colors for the Climate Dial
-val AlertRed = Color(0xFFE53935)
-val WarningOrange = Color(0xFFFFB300)
-val SafeGreen = Color(0xFF43A047)
+val Error40 = Color(0xFFBA1A1A)
+val Error90 = Color(0xFFFFDAD6)
+val Error10 = Color(0xFF410002)
 
-// Neutral Colors
-val DeepCharcoal = Color(0xFF212121)
-val EarthyGray = Color(0xFF757575)
-val White = Color(0xFFFFFFFF)
-val Black = Color(0xFF000000)
+val MulberryGreen40 = Color(0xFF2D6B26)
+val MulberryGreen30 = Color(0xFF41603E)
+val MulberryGreen60 = Color(0xFF6CB667)
+val MulberryGreen90 = Color(0xFFF2FFED)
+
+val WarningOrangeContainer = Color(0xFFE77E1A)
+val WarningOrangeContainerDarkTheme = Color(0xFF8C4600)
+val WarningOrangeText = Color(0xFFF5EDDA)
+val WarningOrangeOutline = Color(0xFFA92C00)

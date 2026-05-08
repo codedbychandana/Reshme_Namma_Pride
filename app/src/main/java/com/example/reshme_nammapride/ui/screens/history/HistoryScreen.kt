@@ -148,7 +148,7 @@ fun HistoryItem(record: RearingRecord) {
                 Text(
                     text = record.stage.displayName,
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -168,7 +168,8 @@ fun HistoryItem(record: RearingRecord) {
                     Text(
                         text = "${record.temperature.toInt()}°C",
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "${record.humidity.toInt()}% RH",

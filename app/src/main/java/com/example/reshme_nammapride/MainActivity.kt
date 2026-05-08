@@ -3,6 +3,7 @@ package com.example.reshme_nammapride
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -32,11 +33,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // initialize Database
+        enableEdgeToEdge()
+
         val db = Room.databaseBuilder(
-                applicationContext,
-                AppDatabase::class.java, "reshme_database"
-            ).fallbackToDestructiveMigration(false).build()
+            applicationContext,
+            AppDatabase::class.java, "reshme_database"
+        ).fallbackToDestructiveMigration(false).build()
 
         val rearingDao = db.rearingDao()
 
@@ -44,7 +46,6 @@ class MainActivity : ComponentActivity() {
             ReshmeNammaPrideTheme {
                 val navController = rememberNavController()
 
-                // viewModel
                 val climateViewModel: ClimateViewModel = viewModel(
                     factory = object : ViewModelProvider.Factory {
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -88,7 +89,9 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    Surface(modifier = Modifier.padding(innerPadding)) {
+                    Surface(
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                    ) {
                         NavGraph(navController = navController, viewModel = climateViewModel)
                     }
                 }
@@ -96,4 +99,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

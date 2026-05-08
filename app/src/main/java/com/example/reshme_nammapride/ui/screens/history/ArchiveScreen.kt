@@ -32,15 +32,17 @@ fun ArchiveScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Completed Batches",
-                        fontWeight = FontWeight.Bold
+                        text = "Completed Batches",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.headlineMedium
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             painter = painterResource(R.drawable.chevron_left), // Use your back icon resource
-                            contentDescription = "Go Back"
+                            contentDescription = "Go Back",
+                            modifier = Modifier.size(32.dp)
                         )
                     }
                 },
@@ -118,7 +120,7 @@ fun BatchArchiveItem(
                     text = batch.breedName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onTertiary
                 )
                 Text(
                     text = "Started on: ${dateFormatter.format(Date(batch.startDate))}",
