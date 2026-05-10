@@ -86,4 +86,8 @@ dependencies {
     val roomVersion = "2.8.4"
 
     implementation("androidx.room:room-runtime:$roomVersion")
+
+    dependencies {
+        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    }
 }
