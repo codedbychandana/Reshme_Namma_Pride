@@ -87,7 +87,4 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$roomVersion")
 
-    dependencies {
-        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    }
 }
