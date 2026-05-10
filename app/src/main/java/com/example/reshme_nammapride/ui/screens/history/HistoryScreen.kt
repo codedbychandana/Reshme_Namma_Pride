@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.data.local.entity.RearingRecord
+import com.example.reshme_nammapride.ui.components.BatchChart
 import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 import java.text.SimpleDateFormat
@@ -27,9 +28,7 @@ fun HistoryScreen(
     navController: NavHostController
 ) {
     val history by viewModel.historyRecords.collectAsState(initial = emptyList())
-
     val activeBatch by viewModel.activeBatch.collectAsState()
-
     val isViewingArchive = history.isNotEmpty() && activeBatch?.id != history.firstOrNull()?.batchId
 
     Scaffold { padding ->
@@ -38,7 +37,6 @@ fun HistoryScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,22 +104,47 @@ fun HistoryScreen(
                     }
                 }
             }
+
             if (history.isEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(padding),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("No records found for this batch.")
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
+                    modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    // history from oldest first
+                    item {
+                        Text(
+                            text = "Growth Progress Curve",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
+                        val tempList = history.map { it.temperature }
+
+                        BatchChart(
+                            recordedTemps = tempList,
+                            idealTemp = 26f,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(400.dp)
+                                .padding(vertical = 24.dp)
+                        )
+
+                        Text(
+                            text = "Detailed Logs",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                    }
+
                     items(history.asReversed()) { record ->
                         HistoryItem(record = record)
                     }
