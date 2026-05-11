@@ -1,0 +1,10 @@
+<resources>
+    <string name="status_safe">ಸುರಕ್ಷಿತ</string>
+    <string name="status_caution">ಎಚ್ಚರಿಕೆ</string>
+    <string name="status_danger">ಅಪಾಯ</string>
+
+    <string name="advice_critical_temp">ತುರ್ತು ಪರಿಸ್ಥಿತಿ! ತಾಪಮಾನ ಹೆಚ್ಚಿದೆ, ಫ್ಯಾನ್ ಬಳಸಿ ಮತ್ತು ತಂಪಾದ ಜಾಗಕ್ಕೆ ವರ್ಗಾಯಿಸಿ.</string>
+    <string name="advice_high_temp">ತಾಪಮಾನ ಹೆಚ್ಚಾಗಿದೆ. ಕಿಟಕಿಗಳನ್ನು ತೆರೆಯಿರಿ ಮತ್ತು ಒದ್ದೆಯಾದ ಚೀಲಗಳನ್ನು ಹರಡಿ.</string>
+    <string name="advice_dry_air">ಗಾಳಿಯು ತುಂಬಾ ಒಣಗಿದೆ. ನೆಲ ಅಥವಾ ಗೋಡೆಗಳ ಮೇಲೆ ನೀರನ್ನು ಸಿಂಪಡಿಸಿ.</string>
+    <string name="advice_ideal">ಆರೋಗ್ಯಕರ ಬೆಳವಣಿಗೆಗೆ ಪರಿಸ್ಥಿತಿಗಳು ಸೂಕ್ತವಾಗಿವೆ.</string>
+</resources>

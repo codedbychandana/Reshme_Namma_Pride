@@ -1,10 +1,11 @@
 package com.example.reshme_nammapride.domain.logic
 
+import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.domain.model.InstarStage
 
 data class ClimateAdvice(
     val status: ClimateStatus,
-    val message: String
+    val messageResId: Int
 )
 
 enum class ClimateStatus { SAFE, CAUTION, DANGER }
@@ -31,16 +32,16 @@ object ClimateEngine {
     ): ClimateAdvice {
         return when {
             temp > maxTemp + 2 || temp < minTemp - 2 ->
-                ClimateAdvice(ClimateStatus.DANGER, "Critical! Move worms to a cooler area and use fans.")
+                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_temp)
 
             temp > maxTemp ->
-                ClimateAdvice(ClimateStatus.CAUTION, "Temperature high. Open windows and spread wet gunny bags.")
+                ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_high_temp)
 
             hum < minHum ->
-                ClimateAdvice(ClimateStatus.CAUTION, "Air is too dry. Spray water on the floor/walls.")
+                ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_dry_air)
 
             else ->
-                ClimateAdvice(ClimateStatus.SAFE, "Conditions are ideal for healthy growth.")
+                ClimateAdvice(ClimateStatus.SAFE, R.string.advice_ideal)
         }
     }
 
