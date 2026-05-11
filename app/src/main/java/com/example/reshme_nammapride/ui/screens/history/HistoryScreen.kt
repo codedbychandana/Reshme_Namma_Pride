@@ -129,7 +129,7 @@ fun HistoryScreen(
                         val tempList = history.map { it.temperature }
 
                         TemperatureChart(
-                            records = history,
+                            records = history.asReversed(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(400.dp)
@@ -137,7 +137,7 @@ fun HistoryScreen(
                         )
 
                         HumidityChart(
-                            records = history,
+                            records = history.asReversed(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(400.dp)
