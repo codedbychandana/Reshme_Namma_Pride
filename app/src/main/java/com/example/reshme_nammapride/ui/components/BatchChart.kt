@@ -121,7 +121,7 @@ private fun BatchChart(
                     val textLabel = "${getValue(record).toInt()}${if (unitLabel == "°C") "°" else "%"}"
                     val labelYOffset = if (unitLabel == "°C") -35f else 45f
 
-                    drawContext.canvas.nativeCanvas.drawText(textLabel, x - 25f, actualY + labelYOffset, Paint().apply {
+                    drawContext.canvas.nativeCanvas.drawText(textLabel, x - 20f, actualY + labelYOffset, Paint().apply {
                         color = labelTextColor
                         textSize = 30f
                         typeface = Typeface.DEFAULT_BOLD
