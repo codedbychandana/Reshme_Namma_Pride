@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.data.local.entity.RearingRecord
-import com.example.reshme_nammapride.ui.components.BatchChart
+import com.example.reshme_nammapride.ui.components.HumidityChart
+import com.example.reshme_nammapride.ui.components.TemperatureChart
 import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 import java.text.SimpleDateFormat
@@ -120,22 +121,30 @@ fun HistoryScreen(
                 ) {
                     item {
                         Text(
-                            text = "Growth Progress Curve",
+                            text = "Growth Progress Curves",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
 
                         val tempList = history.map { it.temperature }
 
-                        BatchChart(
-                            recordedTemps = tempList,
-                            idealTemp = 26f,
+                        TemperatureChart(
+                            records = history,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(400.dp)
                                 .padding(vertical = 24.dp)
                         )
+
+                        HumidityChart(
+                            records = history,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(400.dp)
+                                .padding(vertical = 24.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(40.dp))
 
                         Text(
                             text = "Detailed Logs",

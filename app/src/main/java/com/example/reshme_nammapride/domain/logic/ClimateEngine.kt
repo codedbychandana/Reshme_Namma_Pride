@@ -14,14 +14,12 @@ object ClimateEngine {
     fun analyze(stage: InstarStage, temp: Float, humidity: Float): ClimateAdvice {
         return when (stage) {
             InstarStage.FIRST_INSTAR, InstarStage.SECOND_INSTAR -> {
-                // Chawki worms need high heat and high humidity
                 checkRanges(temp, 26f, 28f, humidity, 80f, 90f)
             }
             InstarStage.THIRD_INSTAR -> {
                 checkRanges(temp, 25f, 26f, humidity, 75f, 80f)
             }
             InstarStage.FOURTH_INSTAR, InstarStage.FIFTH_INSTAR -> {
-                // Late age worms need cooler, airier conditions
                 checkRanges(temp, 23f, 25f, humidity, 65f, 75f)
             }
         }
@@ -43,6 +41,22 @@ object ClimateEngine {
 
             else ->
                 ClimateAdvice(ClimateStatus.SAFE, "Conditions are ideal for healthy growth.")
+        }
+    }
+
+    fun getTargetTemperature(stage: InstarStage): Float {
+        return when (stage) {
+            InstarStage.FIRST_INSTAR, InstarStage.SECOND_INSTAR -> 27f
+            InstarStage.THIRD_INSTAR -> 25.5f
+            InstarStage.FOURTH_INSTAR, InstarStage.FIFTH_INSTAR -> 24f
+        }
+    }
+
+    fun getTargetHumidity(stage: InstarStage): Float {
+        return when (stage) {
+            InstarStage.FIRST_INSTAR, InstarStage.SECOND_INSTAR -> 85f
+            InstarStage.THIRD_INSTAR -> 77.5f
+            InstarStage.FOURTH_INSTAR, InstarStage.FIFTH_INSTAR -> 70f
         }
     }
 }
