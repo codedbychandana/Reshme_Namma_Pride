@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.reshme_nammapride.R
@@ -46,7 +47,7 @@ fun ArchiveScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Completed Batches",
+                        text = stringResource(R.string.title_completed_batches),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.headlineMedium
                     )
@@ -55,7 +56,7 @@ fun ArchiveScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             painter = painterResource(R.drawable.chevron_left),
-                            contentDescription = "Go Back",
+                            contentDescription = stringResource(R.string.cd_back),
                             modifier = Modifier.size(32.dp)
                         )
                     }
@@ -82,7 +83,7 @@ fun ArchiveScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        "No completed batches found.",
+                        text = stringResource(R.string.msg_no_batches),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -103,6 +104,7 @@ fun ArchiveScreen(
                         onExport = {
                             batchToExport = batch
                             exportLauncher.launch("${batch.breedName}_Report.csv")
+
                         }
                     )
                 }
@@ -141,7 +143,7 @@ fun BatchArchiveItem(
                     color = MaterialTheme.colorScheme.onTertiary
                 )
                 Text(
-                    text = "Started on: ${dateFormatter.format(Date(batch.startDate))}",
+                    text = stringResource(R.string.label_started_on, dateFormatter.format(Date(batch.startDate))),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -150,14 +152,14 @@ fun BatchArchiveItem(
             IconButton(onClick = onExport) {
                 Icon(
                     painter = painterResource(R.drawable.download),
-                    contentDescription = "Export CSV",
+                    contentDescription = stringResource(R.string.cd_export_csv),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
 
             Icon(
                 painter = painterResource(R.drawable.chevron_right),
-                contentDescription = "View Details",
+                contentDescription = stringResource(R.string.cd_view_details),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

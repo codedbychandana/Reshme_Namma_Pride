@@ -1,4 +1,6 @@
 <resources>
+    <string name="language_toggle_label">English</string>
+
     <string name="app_name">Reshme-Namma Pride</string>
     <string name="status_safe">SAFE</string>
     <string name="status_caution">CAUTION</string>
@@ -8,4 +10,53 @@
     <string name="advice_high_temp">Temperature high. Open windows and spread wet gunny bags.</string>
     <string name="advice_dry_air">Air is too dry. Spray water on the floor/walls.</string>
     <string name="advice_ideal">Conditions are ideal for healthy growth.</string>
+
+    <string name="stage_first">1st Instar (Chawki)</string>
+    <string name="stage_second">2nd Instar (Chawki)</string>
+    <string name="stage_third">3rd Instar</string>
+    <string name="stage_fourth">4th Instar</string>
+    <string name="stage_fifth">5th Instar (Final)</string>
+
+    <string name="status_label_ideal">Status: Ideal</string>
+    <string name="status_label_action">Action Required</string>
+    <string name="status_label_urgent">URGENT ALERT</string>
+
+    <string name="chart_title_temp">TEMPERATURE (°C)</string>
+    <string name="chart_title_hum">HUMIDITY (%)</string>
+    <string name="chart_label_ideal_temp">IDEAL TEMP</string>
+    <string name="chart_label_ideal_hum">IDEAL HUMIDITY</string>
+    <string name="chart_x_axis_label">Reading Sequence</string>
+
+    <string name="header_current_environment">CURRENT ENVIRONMENT</string>
+    <string name="label_humidity_header">HUMIDITY</string>
+
+    <string name="harvest_timer_title">Cocoon Harvest Timer</string>
+
+    <string name="dialog_finish_title">Finish Batch?</string>
+    <string name="dialog_finish_desc">Are you sure you want to finish \'%1$s\'? You cannot add more logs once closed.</string>
+    <string name="btn_finish">FINISH</string>
+    <string name="btn_save_log">SAVE LOG</string>
+    <string name="title_start_new">Start New Rearing</string>
+    <string name="label_breed_name">Breed Name (e.g., CSR2 x CSR4)</string>
+    <string name="btn_start_batch">START BATCH</string>
+    <string name="label_growth_stage">GROWTH STAGE</string>
+    <string name="label_temp">Temperature</string>
+    <string name="label_humidity">Humidity</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="title_completed_batches">Completed Batches</string>
+    <string name="msg_no_batches">No completed batches found.</string>
+    <string name="label_started_on">Started on: %1$s</string>
+    <string name="cd_back">Go Back</string>
+    <string name="cd_export_csv">Export CSV</string>
+    <string name="cd_view_details">View Details</string>
+    <string name="csv_filename_suffix">%1$s_Report.csv</string>
+
+    <string name="title_archive_details">Archive Details</string>
+    <string name="title_batch_history">Batch History</string>
+    <string name="subtitle_viewing_past">Viewing past records</string>
+    <string name="subtitle_past_logs">Past temperature &amp; humidity logs</string>
+    <string name="btn_view_previous">View previous batches</string>
+    <string name="msg_no_records_batch">No records found for this batch.</string>
+    <string name="label_growth_curves">Growth Progress Curves</string>
+    <string name="label_detailed_logs">Detailed Logs</string>
 </resources>

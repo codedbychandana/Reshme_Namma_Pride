@@ -1,4 +1,6 @@
 <resources>
+    <string name="language_toggle_label">ಕನ್ನಡ</string>
+
     <string name="status_safe">ಸುರಕ್ಷಿತ</string>
     <string name="status_caution">ಎಚ್ಚರಿಕೆ</string>
     <string name="status_danger">ಅಪಾಯ</string>
@@ -7,4 +9,54 @@
     <string name="advice_high_temp">ತಾಪಮಾನ ಹೆಚ್ಚಾಗಿದೆ. ಕಿಟಕಿಗಳನ್ನು ತೆರೆಯಿರಿ ಮತ್ತು ಒದ್ದೆಯಾದ ಚೀಲಗಳನ್ನು ಹರಡಿ.</string>
     <string name="advice_dry_air">ಗಾಳಿಯು ತುಂಬಾ ಒಣಗಿದೆ. ನೆಲ ಅಥವಾ ಗೋಡೆಗಳ ಮೇಲೆ ನೀರನ್ನು ಸಿಂಪಡಿಸಿ.</string>
     <string name="advice_ideal">ಆರೋಗ್ಯಕರ ಬೆಳವಣಿಗೆಗೆ ಪರಿಸ್ಥಿತಿಗಳು ಸೂಕ್ತವಾಗಿವೆ.</string>
+
+    <string name="stage_first">ಮೊದಲನೇ ಹಂತ (ಚಾಕಿ)</string>
+    <string name="stage_second">ಎರಡನೇ ಹಂತ (ಚಾಕಿ)</string>
+    <string name="stage_third">ಮೂರನೇ ಹಂತ</string>
+    <string name="stage_fourth">ನಾಲ್ಕನೇ ಹಂತ</string>
+    <string name="stage_fifth">ಐದನೇ ಹಂತ (ಅಂತಿಮ)</string>
+
+    <string name="status_label_ideal">ಸ್ಥಿತಿ: ಸೂಕ್ತವಾಗಿದೆ</string>
+    <string name="status_label_action">ಕ್ರಮ ಅಗತ್ಯವಿದೆ</string>
+    <string name="status_label_urgent">ತುರ್ತು ಎಚ್ಚರಿಕೆ</string>
+
+    <string name="chart_title_temp">ತಾಪಮಾನ (°C)</string>
+    <string name="chart_title_hum">ಆರ್ದ್ರತೆ (%)</string>
+    <string name="chart_label_ideal_temp">ಸೂಕ್ತ ತಾಪಮಾನ</string>
+    <string name="chart_label_ideal_hum">ಸೂಕ್ತ ಆರ್ದ್ರತೆ</string>
+    <string name="chart_x_axis_label">ಓದುವ ಕ್ರಮ</string>
+
+    <string name="header_current_environment">ಪ್ರಸ್ತುತ ವಾತಾವರಣ</string>
+    <string name="label_humidity_header">ಆರ್ದ್ರತೆ</string>
+
+    <string name="harvest_timer_title">ರೇಷ್ಮೆ ಗೂಡು ಕೊಯ್ಲು ಸಮಯದ ಸೂಚಕ</string>
+
+    <string name="dialog_finish_title">ಬ್ಯಾಚ್ ಮುಕ್ತಾಯಗೊಳಿಸಬೇಕೆ?</string>
+    <string name="dialog_finish_desc">ನೀವು ಖಂಡಿತವಾಗಿಯೂ \'%1$s\' ಅನ್ನು ಮುಕ್ತಾಯಗೊಳಿಸಲು ಬಯಸುವಿರಾ? ಒಮ್ಮೆ ಮುಚ್ಚಿದ ನಂತರ ನೀವು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="btn_finish">ಮುಕ್ತಾಯ</string>
+    <string name="btn_save_log">ದಾಖಲೆ ಉಳಿಸಿ</string>
+    <string name="title_start_new">ಹೊಸ ಸಾಕಣೆ ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="label_breed_name">ತಳಿಯ ಹೆಸರು (ಉದಾ: CSR2 x CSR4)</string>
+    <string name="btn_start_batch">ಬ್ಯಾಚ್ ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="label_growth_stage">ಬೆಳವಣಿಗೆಯ ಹಂತ</string>
+    <string name="msg_save_success">ದಾಖಲೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ</string>
+    <string name="label_temp">ತಾಪಮಾನ</string>
+    <string name="label_humidity">ಆರ್ದ್ರತೆ</string>
+    <string name="btn_cancel">ರದ್ದುಮಾಡಿ</string>
+    <string name="title_completed_batches">ಪೂರ್ಣಗೊಂಡ ಬ್ಯಾಚ್‌ಗಳು</string>
+    <string name="msg_no_batches">ಪೂರ್ಣಗೊಂಡ ಬ್ಯಾಚ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="label_started_on">ಪ್ರಾರಂಭ ದಿನಾಂಕ: %1$s</string>
+    <string name="cd_back">ಹಿಂದಕ್ಕೆ ಹೋಗಿ</string>
+    <string name="cd_export_csv">ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="cd_view_details">ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ</string>
+    <string name="csv_filename_suffix">%1$s_ವರದಿ.csv</string>
+
+    <string name="title_archive_details">ಹಳೆಯ ದಾಖಲೆಗಳ ವಿವರ</string>
+    <string name="title_batch_history">ಬ್ಯಾಚ್ ಇತಿಹಾಸ</string>
+    <string name="subtitle_viewing_past">ಹಳೆಯ ದಾಖಲೆಗಳನ್ನು ನೋಡಲಾಗುತ್ತಿದೆ</string>
+    <string name="subtitle_past_logs">ಹಿಂದಿನ ತಾಪಮಾನ ಮತ್ತು ಆರ್ದ್ರತೆಯ ದಾಖಲೆಗಳು</string>
+    <string name="btn_view_previous">ಹಿಂದಿನ ಬ್ಯಾಚ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ</string>
+    <string name="msg_no_records_batch">ಈ ಬ್ಯಾಚ್‌ಗೆ ಯಾವುದೇ ದಾಖಲೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="label_growth_curves">ಬೆಳವಣಿಗೆಯ ಪ್ರಗತಿಯ ನಕ್ಷೆಗಳು</string>
+    <string name="label_detailed_logs">ವಿವರವಾದ ದಾಖಲೆಗಳು</string>
 </resources>

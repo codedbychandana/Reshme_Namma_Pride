@@ -87,4 +87,6 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$roomVersion")
 
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
 }

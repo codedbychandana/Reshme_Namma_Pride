@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource // Added import
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.reshme_nammapride.R
@@ -71,9 +72,9 @@ fun ActionCard(
             Column {
                 Text(
                     text = when(advice.status) {
-                        ClimateStatus.SAFE -> "Status: Ideal"
-                        ClimateStatus.CAUTION -> "Action Required"
-                        ClimateStatus.DANGER -> "URGENT ALERT"
+                        ClimateStatus.SAFE -> stringResource(R.string.status_label_ideal)
+                        ClimateStatus.CAUTION -> stringResource(R.string.status_label_action)
+                        ClimateStatus.DANGER -> stringResource(R.string.status_label_urgent)
                     },
                     style = MaterialTheme.typography.titleLarge,
                     color = contentColor,
@@ -83,7 +84,7 @@ fun ActionCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = advice.message,
+                    text = stringResource(id = advice.messageResId),
                     style = MaterialTheme.typography.bodyLarge,
                     color = contentColor
                 )

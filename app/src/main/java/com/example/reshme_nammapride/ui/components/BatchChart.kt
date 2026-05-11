@@ -12,27 +12,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.data.local.entity.RearingRecord
 import com.example.reshme_nammapride.domain.logic.ClimateEngine
 import com.example.reshme_nammapride.domain.model.InstarStage
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun TemperatureChart(
     modifier: Modifier = Modifier,
     records: List<RearingRecord>
 ) {
+    val context = LocalContext.current
     BatchChart(
         modifier = modifier,
         records = records,
         lineColor = MaterialTheme.colorScheme.primary,
-        title = "TEMPERATURE (°C)",
+        title = stringResource(R.string.chart_title_temp),
         minVal = 10f,
         maxVal = 45f,
         unitLabel = "°C",
         getValue = { it.temperature },
         getTarget = { ClimateEngine.getTargetTemperature(it) },
-        targetLabel = "IDEAL TEMP"
+        targetLabel = stringResource(R.string.chart_label_ideal_temp)
     )
 }
 
@@ -41,17 +45,18 @@ fun HumidityChart(
     modifier: Modifier = Modifier,
     records: List<RearingRecord>
 ) {
+    val context = LocalContext.current
     BatchChart(
         modifier = modifier,
         records = records,
         lineColor = MaterialTheme.colorScheme.secondary,
-        title = "HUMIDITY (%)",
+        title = stringResource(R.string.chart_title_hum),
         minVal = 30f,
         maxVal = 100f,
         unitLabel = "%",
         getValue = { it.humidity },
         getTarget = { ClimateEngine.getTargetHumidity(it) },
-        targetLabel = "IDEAL HUMIDITY"
+        targetLabel = stringResource(R.string.chart_label_ideal_hum)
     )
 }
 
@@ -68,6 +73,9 @@ private fun BatchChart(
     getTarget: (InstarStage) -> Float,
     targetLabel: String
 ) {
+    val context = LocalContext.current
+    val xAxisLabel = stringResource(R.string.chart_x_axis_label)
+
     val targetLineColor = MaterialTheme.colorScheme.outline
     val axisColor = MaterialTheme.colorScheme.onSurfaceVariant
     val labelTextColor = MaterialTheme.colorScheme.onSurface.toArgb()
@@ -92,7 +100,7 @@ private fun BatchChart(
                 typeface = Typeface.DEFAULT_BOLD
             })
 
-            drawContext.canvas.nativeCanvas.drawText("Reading Sequence", width / 2 - 140f, height + 100f, Paint().apply {
+            drawContext.canvas.nativeCanvas.drawText(xAxisLabel, width / 2 - 140f, height + 100f, Paint().apply {
                 color = axisColor.toArgb()
                 textSize = 34f
                 typeface = Typeface.DEFAULT_BOLD
@@ -136,7 +144,7 @@ private fun BatchChart(
                 drawPath(path = targetPath, color = targetLineColor, style = Stroke(width = 4f), alpha = 0.4f)
 
                 val firstTargetY = height - ((getTarget(records.first().stage) - minVal) / (maxVal - minVal) * height)
-                drawContext.canvas.nativeCanvas.drawText(targetLabel, -40f, firstTargetY + 10f, Paint().apply {
+                drawContext.canvas.nativeCanvas.drawText(targetLabel, -30f, firstTargetY + 10f, Paint().apply {
                     color = targetLineColor.toArgb()
                     textSize = 26f
                     textAlign = Paint.Align.RIGHT

@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource // Added
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -56,7 +57,7 @@ fun HistoryScreen(
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.chevron_left),
-                                contentDescription = "Back",
+                                contentDescription = stringResource(R.string.cd_back),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -64,13 +65,19 @@ fun HistoryScreen(
 
                     Column {
                         Text(
-                            text = if (isViewingArchive) "Archive Details" else "Batch History",
+                            text = if (isViewingArchive)
+                                stringResource(R.string.title_archive_details)
+                            else
+                                stringResource(R.string.title_batch_history),
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
 
                         Text(
-                            text = if (isViewingArchive) "Viewing past records" else "Past temperature & humidity logs",
+                            text = if (isViewingArchive)
+                                stringResource(R.string.subtitle_viewing_past)
+                            else
+                                stringResource(R.string.subtitle_past_logs),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -98,7 +105,7 @@ fun HistoryScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "View previous batches",
+                            text = stringResource(R.string.btn_view_previous),
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -111,7 +118,7 @@ fun HistoryScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("No records found for this batch.")
+                    Text(stringResource(R.string.msg_no_records_batch))
                 }
             } else {
                 LazyColumn(
@@ -121,12 +128,10 @@ fun HistoryScreen(
                 ) {
                     item {
                         Text(
-                            text = "Growth Progress Curves",
+                            text = stringResource(R.string.label_growth_curves),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-
-                        val tempList = history.map { it.temperature }
 
                         TemperatureChart(
                             records = history.asReversed(),
@@ -147,7 +152,7 @@ fun HistoryScreen(
                         Spacer(modifier = Modifier.height(40.dp))
 
                         Text(
-                            text = "Detailed Logs",
+                            text = stringResource(R.string.label_detailed_logs),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(bottom = 12.dp)
@@ -183,18 +188,15 @@ fun HistoryItem(record: RearingRecord) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = record.stage.displayName,
+                    // FIXED: Using localized display name from enum
+                    text = stringResource(record.stage.displayNameResId),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "${dateFormat.format(Date(record.timestamp))} at ${
-                        timeFormat.format(
-                            Date(
-                                record.timestamp
-                            )
-                        )
+                        timeFormat.format(Date(record.timestamp))
                     }",
                     style = MaterialTheme.typography.bodySmall
                 )

@@ -11,8 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource // Added import
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.reshme_nammapride.R // Added import
 import com.example.reshme_nammapride.domain.logic.ClimateStatus
 
 @Composable
@@ -48,7 +50,7 @@ fun ClimateHeader(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "CURRENT ENVIRONMENT",
+            text = stringResource(R.string.header_current_environment),
             style = MaterialTheme.typography.labelSmall,
             color = contentColor.copy(alpha = 0.8f)
         )
@@ -76,7 +78,7 @@ fun ClimateHeader(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "HUMIDITY",
+                    text = stringResource(R.string.label_humidity_header),
                     style = MaterialTheme.typography.labelSmall,
                     color = contentColor.copy(alpha = 0.8f)
                 )

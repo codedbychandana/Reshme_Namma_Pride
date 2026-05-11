@@ -1,5 +1,7 @@
 package com.example.reshme_nammapride.ui.screens.entry
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,13 +11,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.domain.model.InstarStage
-import com.example.reshme_nammapride.ui.components.ActionCard
-import com.example.reshme_nammapride.ui.components.ClimateHeader
-import com.example.reshme_nammapride.ui.components.HarvestAlert
-import com.example.reshme_nammapride.ui.components.AppSnackbar
+import com.example.reshme_nammapride.ui.components.*
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
 import kotlinx.coroutines.launch
 
@@ -34,12 +37,15 @@ fun EntryScreen(viewModel: ClimateViewModel) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     if (showFinishDialog && currentBatch != null) {
         AlertDialog(
             onDismissRequest = { showFinishDialog = false },
-            title = { Text("Finish Batch?") },
-            text = { Text("Are you sure you want to finish '${currentBatch.breedName}'? You cannot add more logs once closed.") },
+            title = { Text(stringResource(R.string.dialog_finish_title)) },
+            text = {
+                Text(stringResource(R.string.dialog_finish_desc, currentBatch.breedName))
+            },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -47,18 +53,34 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         showFinishDialog = false
                     }
                 ) {
-                    Text("FINISH", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.btn_finish), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showFinishDialog = false }) {
-                    Text("CANCEL")
+                    Text(stringResource(R.string.btn_cancel))
                 }
             }
         )
     }
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                actions = {
+                    LanguageToggle()
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
         snackbarHost = { AppSnackbar(hostState = snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
@@ -86,7 +108,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         ),
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.error)
                     ) {
-                        Text("FINISH")
+                        Text(stringResource(R.string.btn_finish))
                     }
 
                     Button(
@@ -94,7 +116,9 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                             currentBatch?.let {
                                 viewModel.saveReading(it.id)
                                 scope.launch {
-                                    snackbarHostState.showSnackbar("Saved record successfully")
+                                    snackbarHostState.showSnackbar(
+                                        "Saved record successfully"
+                                    )
                                 }
                             }
                         },
@@ -107,7 +131,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                             .height(56.dp),
                         enabled = currentBatch != null
                     ) {
-                        Text("SAVE LOG")
+                        Text(stringResource(R.string.btn_save_log))
                     }
                 }
             }
@@ -133,7 +157,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            "Start New Rearing",
+                            text = stringResource(R.string.title_start_new),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -144,10 +168,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         OutlinedTextField(
                             value = newBatchName,
                             onValueChange = { newBatchName = it },
-                            label = { Text(
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                text = "Breed Name (e.g., CSR2 x CSR4)"
-                            ) },
+                            label = { Text(text = stringResource(R.string.label_breed_name)) },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             ),
@@ -169,7 +190,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                                 .height(56.dp),
                             enabled = newBatchName.isNotBlank()
                         ) {
-                            Text("START BATCH")
+                            Text(stringResource(R.string.btn_start_batch))
                         }
                     }
                 }
@@ -195,7 +216,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = "GROWTH STAGE",
+                        text = stringResource(R.string.label_growth_stage),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -212,7 +233,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                                     onClick = { viewModel.updateStage(instar) },
                                     text = {
                                         Text(
-                                            text = instar.displayName,
+                                            text = stringResource(instar.displayNameResId),
                                             style = MaterialTheme.typography.labelMedium
                                         )
                                     }
@@ -223,13 +244,21 @@ fun EntryScreen(viewModel: ClimateViewModel) {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    SliderSection("Temperature", "${temp.toInt()}°C", temp, 10f..45f) {
-                        viewModel.updateTemperature(it)
-                    }
+                    SliderSection(
+                        label = stringResource(R.string.label_temp),
+                        valueText = "${temp.toInt()}°C",
+                        value = temp,
+                        range = 10f..45f,
+                        onValueChange = { viewModel.updateTemperature(it) }
+                    )
 
-                    SliderSection("Humidity", "${humidity.toInt()}%", humidity, 20f..100f) {
-                        viewModel.updateHumidity(it)
-                    }
+                    SliderSection(
+                        label = stringResource(R.string.label_humidity),
+                        valueText = "${humidity.toInt()}%",
+                        value = humidity,
+                        range = 20f..100f,
+                        onValueChange = { viewModel.updateHumidity(it) }
+                    )
                 }
             }
         }
