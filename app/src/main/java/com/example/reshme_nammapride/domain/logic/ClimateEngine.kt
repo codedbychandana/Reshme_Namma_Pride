@@ -15,13 +15,16 @@ object ClimateEngine {
     fun analyze(stage: InstarStage, temp: Float, humidity: Float): ClimateAdvice {
         return when (stage) {
             InstarStage.FIRST_INSTAR, InstarStage.SECOND_INSTAR -> {
-                checkRanges(temp, 26f, 28f, humidity, 80f, 90f)
+                checkRanges(temp, 26f, 29f, humidity, 80f, 85f)
             }
             InstarStage.THIRD_INSTAR -> {
-                checkRanges(temp, 25f, 26f, humidity, 75f, 80f)
+                checkRanges(temp, 24f, 27f, humidity, 75f, 80f)
             }
-            InstarStage.FOURTH_INSTAR, InstarStage.FIFTH_INSTAR -> {
-                checkRanges(temp, 23f, 25f, humidity, 65f, 75f)
+            InstarStage.FOURTH_INSTAR -> {
+                checkRanges(temp, 24f, 26f, humidity, 65f, 75f)
+            }
+            InstarStage.FIFTH_INSTAR -> {
+                checkRanges(temp, 23f, 25f, humidity, 60f, 70f)
             }
         }
     }
@@ -30,16 +33,22 @@ object ClimateEngine {
         temp: Float, minTemp: Float, maxTemp: Float,
         hum: Float, minHum: Float, maxHum: Float
     ): ClimateAdvice {
-        return when {
-            temp > maxTemp + 2 || temp < minTemp - 2 ->
-                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_temp)
 
+        return when {
+            temp > maxTemp + 2 ->
+                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_high_temp)
+            temp < minTemp - 2 ->
+                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_low_temp)
+            temp < minTemp ->
+                    ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_low_temp)
             temp > maxTemp ->
                 ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_high_temp)
-
+            hum >= maxHum + 10 ->
+                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_high_hum)
+            hum <= minHum - 10 ->
+                ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_low_hum)
             hum < minHum ->
                 ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_dry_air)
-
             else ->
                 ClimateAdvice(ClimateStatus.SAFE, R.string.advice_ideal)
         }
