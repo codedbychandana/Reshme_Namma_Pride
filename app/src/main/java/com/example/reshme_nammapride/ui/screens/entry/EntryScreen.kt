@@ -148,10 +148,13 @@ fun EntryScreen(
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
+
+                MovingGradient()
+
                 Card(
                     modifier = Modifier.padding(24.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.95f),
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                     ),
                     elevation = CardDefaults.cardElevation(2.dp)
@@ -172,7 +175,14 @@ fun EntryScreen(
                         OutlinedTextField(
                             value = newBatchName,
                             onValueChange = { newBatchName = it },
-                            label = { Text(text = stringResource(R.string.label_breed_name)) },
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.label_breed_name),
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             ),

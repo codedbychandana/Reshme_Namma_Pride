@@ -112,7 +112,7 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
     fun exportBatchData(context: android.content.Context, uri: android.net.Uri, batch: Batch) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val readings = dao.getRecordsForBatch(batch.id).first()
+                val readings = dao.getRecordsForBatch(batch.id).first().sortedBy { it.timestamp }
                 val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
 
                 val csvHeader = "Date/Time,Temperature(°C),Humidity(%),Growth Stage\n"
