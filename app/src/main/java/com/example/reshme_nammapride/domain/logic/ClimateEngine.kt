@@ -15,16 +15,16 @@ object ClimateEngine {
     fun analyze(stage: InstarStage, temp: Float, humidity: Float): ClimateAdvice {
         return when (stage) {
             InstarStage.FIRST_INSTAR, InstarStage.SECOND_INSTAR -> {
-                checkRanges(temp, 26f, 29f, humidity, 80f, 85f)
+                checkRanges(temp, 26f, 28f + 1f, humidity, 80f, 85f + 1f)
             }
             InstarStage.THIRD_INSTAR -> {
-                checkRanges(temp, 24f, 27f, humidity, 75f, 80f)
+                checkRanges(temp, 24f, 26f + 1f, humidity, 75f, 80f + 1f)
             }
             InstarStage.FOURTH_INSTAR -> {
-                checkRanges(temp, 24f, 26f, humidity, 65f, 75f)
+                checkRanges(temp, 24f, 25f + 1f, humidity, 65f, 75f + 1f)
             }
             InstarStage.FIFTH_INSTAR -> {
-                checkRanges(temp, 23f, 25f, humidity, 60f, 70f)
+                checkRanges(temp, 23f, 24f + 1f, humidity, 60f, 70f + 1f)
             }
         }
     }
@@ -49,6 +49,8 @@ object ClimateEngine {
                 ClimateAdvice(ClimateStatus.DANGER, R.string.advice_critical_low_hum)
             hum < minHum ->
                 ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_dry_air)
+            hum > maxHum ->
+                ClimateAdvice(ClimateStatus.CAUTION, R.string.advice_humid_air)
             else ->
                 ClimateAdvice(ClimateStatus.SAFE, R.string.advice_ideal)
         }

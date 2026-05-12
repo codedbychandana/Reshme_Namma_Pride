@@ -11,6 +11,7 @@
     <string name="advice_high_temp">Temperature high. Open windows and spread wet gunny bags.</string>
     <string name="advice_low_temp">Temperature is too low. Use heaters and close windows to keep the room warm.</string>
     <string name="advice_dry_air">Air is too dry. Spray water on the floor/walls.</string>
+    <string name="advice_humid_air">Humidity is slightly high. Open windows for cross-ventilation and avoid feeding wet leaves.</string>
     <string name="advice_critical_high_hum">Critical! Humidity is too high. Use slaked lime on beds and ensure maximum airflow.</string>
     <string name="advice_critical_low_hum">Critical! Air is dangerously dry. Hang wet gunny bags and spray water on the floor immediately.</string>
     <string name="advice_ideal">Conditions are ideal for healthy growth.</string>
