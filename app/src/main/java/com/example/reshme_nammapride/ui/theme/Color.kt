@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val Neutral99 = Color(0xFF64B417)
 val Neutral90 = Color(0xFFA1DA9A)
 val Neutral10 = Color(0xFF061300)
-val NeutralVariant30 = Color(0xFF43493F)
+val NeutralVariant30 = Color(0xFF25261B)
 val NeutralVariant50 = Color(0xFF74796E)
 
 val Error40 = Color(0xFFBA1A1A)

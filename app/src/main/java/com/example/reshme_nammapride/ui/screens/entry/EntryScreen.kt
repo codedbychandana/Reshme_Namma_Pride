@@ -1,7 +1,5 @@
 package com.example.reshme_nammapride.ui.screens.entry
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,16 +17,23 @@ import com.example.reshme_nammapride.R
 import com.example.reshme_nammapride.domain.model.InstarStage
 import com.example.reshme_nammapride.ui.components.*
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
+import com.example.reshme_nammapride.viewmodel.ManagementViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EntryScreen(viewModel: ClimateViewModel) {
-    val temp by viewModel.tempInput.collectAsState()
-    val humidity by viewModel.humidityInput.collectAsState()
-    val stage by viewModel.selectedStage.collectAsState()
-    val advice by viewModel.currentAdvice.collectAsState()
-    val activeBatchState by viewModel.activeBatch.collectAsState()
+fun EntryScreen(
+    climateViewModel: ClimateViewModel,
+    managementViewModel: ManagementViewModel
+) {
+    val temp by climateViewModel.tempInput.collectAsState()
+    val humidity by climateViewModel.humidityInput.collectAsState()
+    val stage by climateViewModel.selectedStage.collectAsState()
+    val advice by climateViewModel.currentAdvice.collectAsState()
+    val activeBatchState by climateViewModel.activeBatch.collectAsState()
+
+    val mgtAdviceId by managementViewModel.managementAdviceResId.collectAsState()
+    val mgtIconId by managementViewModel.managementIconResId.collectAsState()
 
     var newBatchName by remember { mutableStateOf("") }
     var showFinishDialog by remember { mutableStateOf(false) }
@@ -49,7 +53,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
             confirmButton = {
                 TextButton(
                     onClick = {
-                        viewModel.completeActiveBatch()
+                        climateViewModel.completeActiveBatch()
                         showFinishDialog = false
                     }
                 ) {
@@ -114,7 +118,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                     Button(
                         onClick = {
                             currentBatch?.let {
-                                viewModel.saveReading(it.id)
+                                climateViewModel.saveReading(it.id)
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
                                         "Saved record successfully"
@@ -181,7 +185,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         Button(
                             onClick = {
                                 if (newBatchName.isNotBlank()) {
-                                    viewModel.createNewBatch(newBatchName)
+                                    climateViewModel.createNewBatch(newBatchName)
                                     newBatchName = ""
                                 }
                             },
@@ -202,7 +206,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
-                val harvestStatus by viewModel.harvestTimerState.collectAsState()
+                val harvestStatus by climateViewModel.harvestTimerState.collectAsState()
 
                 if (stage == InstarStage.FIFTH_INSTAR && harvestStatus != null) {
                     HarvestAlert(status = harvestStatus!!)
@@ -230,7 +234,10 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                             InstarStage.entries.forEach { instar ->
                                 Tab(
                                     selected = stage == instar,
-                                    onClick = { viewModel.updateStage(instar) },
+                                    onClick = {
+                                        climateViewModel.updateStage(instar)
+                                        managementViewModel.updateStage(instar)
+                                    },
                                     text = {
                                         Text(
                                             text = stringResource(instar.displayNameResId),
@@ -244,12 +251,14 @@ fun EntryScreen(viewModel: ClimateViewModel) {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    ManagementCard(advice = mgtAdviceId, iconResId = mgtIconId)
+
                     SliderSection(
                         label = stringResource(R.string.label_temp),
                         valueText = "${temp.toInt()}°C",
                         value = temp,
                         range = 10f..45f,
-                        onValueChange = { viewModel.updateTemperature(it) }
+                        onValueChange = { climateViewModel.updateTemperature(it) }
                     )
 
                     SliderSection(
@@ -257,7 +266,7 @@ fun EntryScreen(viewModel: ClimateViewModel) {
                         valueText = "${humidity.toInt()}%",
                         value = humidity,
                         range = 20f..100f,
-                        onValueChange = { viewModel.updateHumidity(it) }
+                        onValueChange = { climateViewModel.updateHumidity(it) }
                     )
                 }
             }

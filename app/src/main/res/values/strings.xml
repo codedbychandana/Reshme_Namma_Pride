@@ -59,4 +59,12 @@
     <string name="msg_no_records_batch">No records found for this batch.</string>
     <string name="label_growth_curves">Growth Progress Curves</string>
     <string name="label_detailed_logs">Detailed Logs</string>
+
+    <string name="label_stage_management">Stage Management</string>
+    <string name="adv_mgt_1st">Feed finely chopped tender leaves 3 times daily. Keep the rearing bed thin and clean.</string>
+    <string name="adv_mgt_2nd">Feed slightly larger chopped leaves. Increase spacing as worms grow rapidly.</string>
+    <string name="adv_mgt_3rd">Clean the bed before the first feeding. Ensure the room has good cross-ventilation.</string>
+    <string name="adv_mgt_4th">Feed whole branches or large leaves. Maintain high hygiene to prevent diseases.</string>
+    <string name="adv_mgt_5th">Maximum feeding phase. Watch for transparent bodies (spinning signs) and prepare montages.</string>
+
 </resources>

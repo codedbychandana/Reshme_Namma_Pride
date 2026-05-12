@@ -29,6 +29,7 @@ import com.example.reshme_nammapride.ui.navigation.NavGraph
 import com.example.reshme_nammapride.ui.navigation.Screen
 import com.example.reshme_nammapride.ui.theme.ReshmeNammaPrideTheme
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
+import com.example.reshme_nammapride.viewmodel.ManagementViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,14 @@ class MainActivity : AppCompatActivity() {
                     factory = object : ViewModelProvider.Factory {
                         override fun <T : ViewModel> create(modelClass: Class<T>): T {
                             return ClimateViewModel(rearingDao) as T
+                        }
+                    }
+                )
+
+                val managementViewModel: ManagementViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return ManagementViewModel() as T
                         }
                     }
                 )
@@ -93,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                     Surface(
                         modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
                     ) {
-                        NavGraph(navController = navController, viewModel = climateViewModel)
+                        NavGraph(navController = navController, climateViewModel = climateViewModel, managementViewModel = managementViewModel)
                     }
                 }
             }

@@ -8,28 +8,30 @@ import com.example.reshme_nammapride.ui.screens.entry.EntryScreen
 import com.example.reshme_nammapride.ui.screens.history.ArchiveScreen
 import com.example.reshme_nammapride.ui.screens.history.HistoryScreen
 import com.example.reshme_nammapride.viewmodel.ClimateViewModel
+import com.example.reshme_nammapride.viewmodel.ManagementViewModel
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    viewModel: ClimateViewModel
+    climateViewModel:  ClimateViewModel,
+    managementViewModel: ManagementViewModel
 ) {
     NavHost(
         navController = navController,
         startDestination = Screen.Entry.route
     ) {
         composable(Screen.Entry.route) {
-            EntryScreen(viewModel = viewModel)
+            EntryScreen(climateViewModel, managementViewModel)
         }
         composable(Screen.History.route) {
-            HistoryScreen(viewModel = viewModel, navController = navController)
+            HistoryScreen(viewModel = climateViewModel, navController = navController)
         }
         composable(Screen.Archive.route) {
             ArchiveScreen(
-                viewModel = viewModel,
+                viewModel = climateViewModel,
                 onBack = { navController.popBackStack() },
                 onBatchClick = { batchId ->
-                    viewModel.selectBatch(batchId)
+                    climateViewModel.selectBatch(batchId)
                     navController.navigate(Screen.History.route)
                 }
             )
