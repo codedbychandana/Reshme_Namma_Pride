@@ -1,3 +1,8 @@
+
+## How to run
+You may download this repository and use an integrated development environment such as Android Studio to build the apk file and install on any Android device (min. SDK 24). 
+Alternatively, download the apk file directly on an android: https://drive.google.com/file/d/13F2rHUYoW3hTGoZdEdhJFZ4dbQZ6o9us/view?usp=drive_link
+
 # Purpose
 **Reshme-Namma Pride** is an Android application designed to support sericulture farmers in 
 monitoring and maintaining the ideal environmental conditions required for silkworm growth. 
@@ -5,9 +10,6 @@ Karnataka is known as the silk capital of India, and silkworms are highly sensit
 temperature and humidity changes. Even a small variation can damage or destroy the cocoon 
 batch. Based on the silkworm growth stage, the app analyzes the data and provides smart 
 suggestions and actionable alerts to help maintain a safe rearing environment.
-
-## How to run
-You may download this repository and use an integrated development environment such as Android Studio to build the apk file and install on any Android device (min. SDK 24).
 
 
 ## Scope and Features
