@@ -14,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+// view model for batch tracking related operations
 class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
 
     val activeBatch = dao.getActiveBatch().stateIn(
@@ -109,6 +110,7 @@ class ClimateViewModel(private val dao: RearingDao) : ViewModel() {
         }
     }
 
+    // csv export system
     fun exportBatchData(context: android.content.Context, uri: android.net.Uri, batch: Batch) {
         viewModelScope.launch(Dispatchers.IO) {
             try {

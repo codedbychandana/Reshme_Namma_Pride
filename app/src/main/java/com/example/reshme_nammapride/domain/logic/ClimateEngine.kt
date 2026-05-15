@@ -10,6 +10,7 @@ data class ClimateAdvice(
 
 enum class ClimateStatus { SAFE, CAUTION, DANGER }
 
+// smart advice engine which compares readings with ideal growth curve and gives smart suggestions
 object ClimateEngine {
 
     fun analyze(stage: InstarStage, temp: Float, humidity: Float): ClimateAdvice {

@@ -2,6 +2,7 @@ package com.example.reshme_nammapride.domain.model
 
 import com.example.reshme_nammapride.R
 
+// enum for growth stages
 enum class InstarStage(val displayNameResId: Int) {
     FIRST_INSTAR(R.string.stage_first),
     SECOND_INSTAR(R.string.stage_second),
